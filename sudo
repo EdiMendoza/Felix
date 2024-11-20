@@ -1,0 +1,25 @@
+<?php
+
+include 'conexion.php'; // Asegúrate de que esta ruta es correcta
+
+// Verifica si el parámetro 'id' está presente en la URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // Realiza una consulta para obtener la información del guía con el ID
+    $query = "SELECT * FROM guias WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Verifica si se encuentra el guía
+    if ($result->num_rows > 0) {
+        $guia = $result->fetch_assoc();
+        // Muestra el formulario con los datos del guía para editar
+    } else {
+        echo "Guía no encontrada.";
+    }
+}
+?>
+
